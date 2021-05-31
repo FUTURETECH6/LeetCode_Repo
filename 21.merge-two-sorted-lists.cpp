@@ -64,37 +64,19 @@ using namespace std;
 class Solution {
   public:
     ListNode *mergeTwoLists(ListNode *l1, ListNode *l2) {
-        if (!l1)
+        if (l1 == nullptr) {
             return l2;
-        if (!l2)
+        }
+        if (l2 == nullptr) {
             return l1;
-
-        ListNode *pCur = nullptr, *p1 = l1, *p2 = l2;
-
-        if (l1->val < l2->val) {
-            pCur = l1;
-            p1   = p1->next;
+        }
+        if (l1->val <= l2->val) {
+            l1->next = mergeTwoLists(l1->next, l2);
+            return l1;
         } else {
-            pCur = l2;
-            p2   = p2->next;
+            l2->next = mergeTwoLists(l1, l2->next);
+            return l2;
         }
-
-        for (; p1 && p2; pCur = pCur->next) {
-            if (p1->val < p2->val) {
-                pCur->next = p1;
-                p1         = p1->next;
-            } else {
-                pCur->next = p2;
-                p2         = p2->next;
-            }
-        }
-
-        if (!p1)
-            pCur->next = p2;
-        if (!p2)
-            pCur->next = p1;
-
-        return l1->val < l2->val ? l1 : l2;
     }
 };
 // @lc code=end
@@ -106,16 +88,45 @@ class Solution {
 //             return l2;
 //         if (!l2)
 //             return l1;
+//         ListNode *pCur = nullptr, *p1 = l1, *p2 = l2;
+//         if (l1->val < l2->val) {
+//             pCur = l1;
+//             p1   = p1->next;
+//         } else {
+//             pCur = l2;
+//             p2   = p2->next;
+//         }
+//         for (; p1 && p2; pCur = pCur->next) {
+//             if (p1->val < p2->val) {
+//                 pCur->next = p1;
+//                 p1         = p1->next;
+//             } else {
+//                 pCur->next = p2;
+//                 p2         = p2->next;
+//             }
+//         }
+//         if (!p1)
+//             pCur->next = p2;
+//         if (!p2)
+//             pCur->next = p1;
+//         return l1->val < l2->val ? l1 : l2;
+//     }
+// };
 
+// class Solution {
+//   public:
+//     ListNode *mergeTwoLists(ListNode *l1, ListNode *l2) {
+//         if (!l1)
+//             return l2;
+//         if (!l2)
+//             return l1;
 //         ListNode *ret = nullptr;
 //         auto p1 = l1, p2 = l2, p = ret;
-
 //         for (; p1 && p2;) {
 //             if (ret)
 //                 p = p->next = new ListNode;
 //             else
 //                 ret = p = new ListNode;
-
 //             if (p1->val < p2->val) {
 //                 p->val = p1->val;
 //                 p1     = p1->next;
@@ -124,12 +135,10 @@ class Solution {
 //                 p2     = p2->next;
 //             }
 //         }
-
 //         if (!p1)
 //             p->next = p2;
 //         if (!p2)
 //             p->next = p1;
-
 //         return ret;
 //     }
 // };
