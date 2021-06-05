@@ -58,7 +58,8 @@
  * Follow-up: Can you come up with an algorithm that is less than O(n^2) time
  * complexity?
  */
-
+#include <vector>
+using namespace std;
 // @lc code=start
 class Solution {
   public:

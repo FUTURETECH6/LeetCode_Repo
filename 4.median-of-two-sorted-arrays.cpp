@@ -69,7 +69,8 @@
  *
  *
  */
-
+#include <vector>
+using namespace std;
 // @lc code=start
 class Solution {
   public:
@@ -84,9 +85,8 @@ class Solution {
             return sz1 % 2 ? (double)nums1[sz1 / 2]                               // odd
                            : (double)(nums1[sz1 / 2 - 1] + nums1[sz1 / 2]) / 2.;  // even
         int const tot_sz = sz1 + sz2;
-        return tot_sz % 2
-                   ? Kth(nums1, nums2, tot_sz / 2)
-                   : (Kth(nums1, nums2, tot_sz / 2 - 1) + Kth(nums1, nums2, tot_sz / 2)) / 2.;
+        return tot_sz % 2 ? Kth(nums1, nums2, tot_sz / 2)
+                          : (Kth(nums1, nums2, tot_sz / 2 - 1) + Kth(nums1, nums2, tot_sz / 2)) / 2.;
     }
 
   private:
@@ -95,8 +95,7 @@ class Solution {
     int Kth(vector<int> &nums1, vector<int> &nums2, int k) {
         int L1 = 0, L2 = 0, R1 = sz1 - 1, R2 = sz2 - 1, M1, M2;
 
-        for (M1 = (L1 + R1) / 2, M2 = (L2 + R2) / 2; L1 <= R1 && L2 <= R2;
-             M1 = (L1 + R1) / 2, M2 = (L2 + R2) / 2) {
+        for (M1 = (L1 + R1) / 2, M2 = (L2 + R2) / 2; L1 <= R1 && L2 <= R2; M1 = (L1 + R1) / 2, M2 = (L2 + R2) / 2) {
 
             if (nums1[M1] <= nums2[M2]) {
                 if (k <= M1 + M2)
