@@ -90,7 +90,7 @@ struct ListNode {
 class Solution {
   public:
     ListNode *reverseKGroup(ListNode *head, int k) {
-        if (k <= 1)
+        if (k < 2)
             return head;
 
         auto const last = getLast(head, k);
@@ -116,8 +116,7 @@ class Solution {
 // @lc code=end
 
 int main(int argc, char const *argv[]) {
-    ListNode *head =
-        new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
-    head = Solution().reverseKGroup(head, 1);
+    ListNode *head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
+    head           = Solution().reverseKGroup(head, 1);
     return 0;
 }

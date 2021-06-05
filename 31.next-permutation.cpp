@@ -54,20 +54,18 @@ using namespace std;
 class Solution {
   public:
     inline void nextPermutation(vector<int> &nums) {
-        if (nums.begin() == nums.end())  // 0 num
+        if (nums.size() & ~1 == 0)  // 0 or 1 num
             return;
-        auto i = nums.end();      // 从右往左第一个逆序数字
-        if (nums.begin() == --i)  // 1 num
-            return;
+        auto i = nums.end() - 2;  // 从右往左第一个逆序数字
 
-        for (i--; i >= nums.begin() && *(i) >= *(i + 1); i--)  // `>=` 防止 [5,1,1] 这种
+        for (; i >= nums.begin() && *(i) >= *(i + 1); i--)  // `>=` 防止 [5,1,1] 这种
             ;
 
         if (i < nums.begin()) {  // Last perm
             std::reverse(nums.begin(), nums.end());
             return;
-        } else {  // Not last perm
-            auto i2 = nums.end();
+        } else {                   // Not last perm
+            auto i2 = nums.end();  // 第一个大于该逆序数字(i)的数字
 
             for (; i2 != nums.begin() && !(*--i2 > *i);)
                 ;
@@ -79,6 +77,16 @@ class Solution {
     }
 };
 // @lc code=end
+
+/*
+https://blog.csdn.net/yingyujianmo/article/details/52046398
+从右向左找到第一个逆序的数字，例如“95382”的第一个逆序的数字是‘3’；
+从右向左找到第一个大于该逆序数字的数字，“95382”中从右向左大于‘3’
+的第一个数字是‘8’；
+交换这两个数字的位置，得到“95832”；
+再将第一个逆序数字所在位置之后的数字翻转，即得到该排列的下一个排列，
+即“95823”.
+*/
 
 int main(int argc, char const *argv[]) {
     vector<int> a = {5, 1, 1};

@@ -64,23 +64,23 @@ class Solution {
     }
 
   private:
-    vector<vector<int>> kSum(
-        vector<int> &nums, int target, vector<int>::iterator start_itor, int k) {
+    vector<vector<int>> kSum(vector<int> &nums, int target, vector<int>::iterator itor_first, int k) {
         vector<vector<int>> res;
 
-        if (start_itor == nums.end()      // has gone to the tail
-            || *start_itor * k > target   // must exceed
+        if (itor_first == nums.end()      // has gone to the tail
+            || *itor_first * k > target   // must exceed
             || target > nums.back() * k)  // must inadequate
             return res;
+
         if (k == 1) {
             for (auto i = nums.begin(); i < nums.end(); i++)
                 if (*i == target                // match
                     && (i == nums.begin()       // is first
-                           || *i != *(i - 1)))  // pass same vals
+                           || *i != *(i - 1)))  // skip same vals
                     res.push_back({*i});
         } else if (k > 1) {  // k > 1
-            for (auto i = start_itor; i < nums.end(); i++)
-                if (i == start_itor     // is first
+            for (auto i = itor_first; i < nums.end(); i++)
+                if (i == itor_first     // is first
                     || *i != *(i - 1))  // pass same vals
                     for (auto &set : kSum(nums, target - *i, i + 1, k - 1)) {
                         res.push_back({*i});

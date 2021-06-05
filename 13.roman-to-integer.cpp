@@ -100,17 +100,9 @@ using namespace std;
 class Solution {
   public:
     int romanToInt(string s) {
-        // int sum = T[s.back()];
-        // for (int i = s.length() - 2; i >= 0; --i)
-        //     if (T[s[i]] < T[s[i + 1]]) // 倒挂 for 4 and 9
-        //         sum -= T[s[i]];
-        //     else
-        //         sum += T[s[i]];
-
-        const int sLen = s.size();
-        int sum        = 0;
-        for (auto i = 0; i < sLen; i++)
-            if (T[s[i]] < T[s[i + 1]] && i + 1 < sLen)  // 倒挂 for 4 and 9
+        int sum = 0;
+        for (auto i = 0; i < s.size(); i++)
+            if (i + 1 < s.size() && T[s[i]] < T[s[i + 1]])  // 倒挂 for 4 and 9
                 sum -= T[s[i]];
             else
                 sum += T[s[i]];
@@ -119,7 +111,6 @@ class Solution {
     }
 
   private:
-    unordered_map<char, int> T = {
-        {'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, {'C', 100}, {'D', 500}, {'M', 1000}};
+    unordered_map<char, int> T = {{'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, {'C', 100}, {'D', 500}, {'M', 1000}};
 };
 // @lc code=end

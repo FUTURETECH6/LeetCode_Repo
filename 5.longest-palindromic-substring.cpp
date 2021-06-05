@@ -70,20 +70,26 @@ class Solution {
             ss += i;
             ss += "#";
         }
-        vector<int> p;
-        p.resize(ss.size(), 0);
+        vector<int> p(ss.size(), 0);  // p[i]存储的是以ss[i]为中心的回文半径
 
         // Main Part
-        int id = 0, mx = 0;
+        int id = 0,  // 辅助变量，回文子串的中心位置
+            mx = 0;  // 辅助变量，回文子串的最后位置
+
         for (auto i = 1; i < ss.size(); i++) {
             // Set init p[i] quickly
+            /*
+            |-------------------|-------------------|
+                ↑               ↑               ↑   ↑
+              2id-i             id              i   mx
+            */
             p[i] = mx > i ? min(p[2 * id - i], mx - i) : 1;
 
             // Expand p[i]
-            while (i + p[i] < ss.size() && i - p[i] >= 0 && ss[i + p[i]] == ss[i - p[i]])
+            while (i - p[i] >= 0 && i + p[i] < ss.size() && ss[i + p[i]] == ss[i - p[i]])
                 p[i]++;
 
-            // Enlarge mx if possible
+            // Found a longer substring (id may be the same)
             if (i + p[i] > mx) {
                 mx = i + p[i];
                 id = i;
@@ -106,3 +112,7 @@ class Solution {
     }
 };
 // @lc code=end
+
+/*
+https://blog.csdn.net/jiwang1990/article/details/39137153
+*/

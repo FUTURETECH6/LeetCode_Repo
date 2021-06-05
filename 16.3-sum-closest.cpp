@@ -74,8 +74,7 @@ class Solution {
                 // }
 
                 /* 👇这样速度比上面快 */
-                if (dist(nums[i] + nums[j + 1] + nums[k], target) <
-                    dist(nums[i] + nums[j] + nums[k - 1], target))
+                if (dist(nums[i] + nums[j + 1] + nums[k], target) < dist(nums[i] + nums[j] + nums[k - 1], target))
                     j++;
                 else
                     k--;

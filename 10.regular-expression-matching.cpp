@@ -88,23 +88,21 @@ class Solution {
     bool isMatch(string s, string p) {
         if (!p.size())  // |p| == 0
             return !s.size();
-        else if (!s.size())  // |s| == 0 && |p| > 0
-        {
+        else if (!s.size()) {    // |s| == 0 && |p| > 0
             switch (p.size()) {  // |p| > 0
                 case 1: return false;
                 case 2: return p[1] == '*';
                 default: return p[1] == '*' && isMatch(s, p.substr(2, p.size() - 2));
             }
+        } else {  // |s| > 0 && |p| > 0
+            bool firstMatch = s[0] == p[0] || p[0] == '.';
+
+            if (p.size() >= 2 && p[1] == '*')                                // |s| > 0 && p[0:2] == x*
+                return isMatch(s, p.substr(2, p.size() - 2)) ||              // * = 0
+                       firstMatch && isMatch(s.substr(1, s.size() - 1), p);  // * used, match next
+            else                                                             // |s| > 0 && normal p
+                return firstMatch && isMatch(s.substr(1, s.size() - 1), p.substr(1, p.size() - 1));
         }
-
-        bool firstMatch = s[0] == p[0] || p[0] == '.';
-
-        if (p.size() >= 2 && p[1] == '*')                    // |s| > 0 && p[0:2] == x*
-            return isMatch(s, p.substr(2, p.size() - 2)) ||  // * = 0
-                   firstMatch && isMatch(s.substr(1, s.size() - 1), p);  // * used, match next
-        else                                                             // |s| > 0 && other p
-            return firstMatch &&
-                   isMatch(s.substr(1, s.size() - 1), p.substr(1, p.size() - 1));
     }
 };
 // @lc code=end

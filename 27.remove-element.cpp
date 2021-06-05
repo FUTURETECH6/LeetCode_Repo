@@ -85,12 +85,23 @@ class Solution {
     int removeElement(vector<int> &nums, int val) {
 
         auto itor = nums.begin();
-
         for (auto &i : nums)
             if (i != val)
                 *(itor++) = i;
-
         return itor - nums.begin();
+
+        // for (auto i = nums.begin(); i != nums.end();)
+        //     if (*i == val)
+        //         i = nums.erase(i);
+        //     else
+        //         i++;
+        // return nums.size();
     }
 };
 // @lc code=end
+
+int main(int argc, char const *argv[]) {
+    vector<int> a = {1, 2, 3, 4, 5, 6};
+    Solution().removeElement(a, 2);
+    return 0;
+}
