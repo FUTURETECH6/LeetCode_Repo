@@ -2,9 +2,6 @@
     "configurations": [
         {
             "name": "Linux",
-            "includePath": [
-                "${workspaceFolder}/**"
-            ],
             "defines": [],
             "compilerPath": "/usr/bin/clang++-10",
             "cStandard": "c99",
