@@ -4,7 +4,7 @@
         {
             "type": "cppbuild",
             "label": "C/C++: g++ build active file",
-            "command": "/usr/bin/clang++-10",
+            "command": "clang++-12",
             "args": [
                 "-g",
                 "-std=c++20",
@@ -21,8 +21,7 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
-            "detail": "compiler: /usr/bin/clang++-10"
+            }
         }
     ]
 }

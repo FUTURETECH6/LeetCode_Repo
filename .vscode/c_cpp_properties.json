@@ -3,7 +3,7 @@
         {
             "name": "Linux",
             "defines": [],
-            "compilerPath": "/usr/bin/clang++-10",
+            "compilerPath": "/usr/bin/clang++-12",
             "cStandard": "c99",
             "cppStandard": "c++20",
             "intelliSenseMode": "${default}"
