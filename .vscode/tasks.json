@@ -7,7 +7,7 @@
             "command": "clang++-12",
             "args": [
                 "-g",
-                "-std=c++20",
+                "-std=c++17",
                 "${file}",
                 "-o",
                 "${workspaceFolder}/.vscode/a.out"
