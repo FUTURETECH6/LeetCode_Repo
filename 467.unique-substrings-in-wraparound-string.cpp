@@ -74,7 +74,7 @@ class Solution {
   public:
     int findSubstringInWraproundString(string p) {
         int n = p.size();
-        vector<int> count(26, 0);  // **例如，从d开始的有de, def, defg三个，count['d' - 'a']就是3
+        vector<int> count(26, 0);  // count[i]记录以i+'a'借尾的substr个数，例如，以g结尾的的有fg, efg, defg三个，count['d' - 'a']就是3
         int max_len = 0;
         for (int i = 0; i < n; ++i) {
             if (i > 0 && p[i] == nextChar(p[i - 1])) {
@@ -90,3 +90,8 @@ class Solution {
 };
 
 // @lc code=end
+
+int main(int argc, char const *argv[]) {
+    Solution().findSubstringInWraproundString("zab");
+    return 0;
+}
