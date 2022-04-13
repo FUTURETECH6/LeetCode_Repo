@@ -85,13 +85,13 @@ using namespace std;
 
 class Solution {
   private:
-    map<long, map<unsigned, unsigned>> speedupMap;
-    map<long, vector<pair<unsigned, unsigned>>> diffMap;
-    map<int, set<int>> sameMap;
+    unordered_map<int, map<unsigned, unsigned>> speedupMap;
+    unordered_map<int, vector<pair<unsigned, unsigned>>> diffMap;
+    unordered_map<int, set<int>> sameMap;
 
-    void extendSubstr(vector<pair<unsigned, unsigned>>::iterator itor, const long diff, int &result, int length) {
-        vector<pair<unsigned, unsigned>> &vec = diffMap[diff];
-        map<unsigned, unsigned> &speedup      = speedupMap[diff];
+    void extendSubstr(vector<pair<unsigned, unsigned>>::iterator itor, const int diff, int &result, int length) {
+        auto &vec     = diffMap[diff];
+        auto &speedup = speedupMap[diff];
 
         for (auto p = speedup.count(itor->second) ? vec.begin() + speedup[itor->second] : vec.end(); p < vec.end(); p++) {
             if (p->first > itor->second)
@@ -117,7 +117,9 @@ class Solution {
                     sameMap[nums[i]].insert(i);
                     sameMap[nums[i]].insert(j);
                 } else {
-                    long diff = (long)nums[j] - (long)nums[i];
+                    if ((long)nums[j] - (long)nums[i] > INT32_MAX || (long)nums[j] - (long)nums[i] < INT32_MIN)
+                        continue;
+                    int diff = nums[j] - nums[i];
 
                     if (diffMap.count(diff) == 0)
                         diffMap[diff] = {{i, j}};
