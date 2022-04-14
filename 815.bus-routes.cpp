@@ -65,49 +65,55 @@ using namespace std;
 
 // @lc code=start
 
+#include <deque>
 #include <numeric>
 #include <set>
 #include <unordered_map>
 
 class Solution {
   private:
-    unordered_map<int, set<vector<int> *>> stopRoutes;  // which stop has which routes(use `set<vector<int> *>` to represent)
-    set<int> stops;
-    unordered_map<int, unsigned> busToTake;
+    unordered_map<int, set<vector<int> *>> stopRoutesMap;  // which stop has which routes(use `set<vector<int> *>` to represent)
+    unordered_map<int, unsigned> busToTakeMap;             // store result
+    deque<int> stopQueue;                                  // queue for BFS
+    unordered_map<vector<int> *, bool> isDone;             // which bus has been used
 
     void updateStop(int stop) {
-        stops.erase(stop);
-        for (auto &route : stopRoutes[stop]) {
+        for (auto &pRoute : stopRoutesMap[stop]) {
+            if (isDone[pRoute])
+                continue;
 
-            for (auto &iStop : *route) {
-                if (busToTake.count(iStop) == 0)
-                    busToTake[iStop] = busToTake[stop] + 1;
+            for (auto &iStop : *pRoute) {
+                stopQueue.push_back(iStop);
+
+                if (busToTakeMap.count(iStop) == 0)
+                    busToTakeMap[iStop] = busToTakeMap[stop] + 1;
                 else
-                    busToTake[iStop] = min(busToTake[iStop], busToTake[stop] + 1);
+                    busToTakeMap[iStop] = min(busToTakeMap[iStop], busToTakeMap[stop] + 1);
             }
-            for (auto &iStop : *route)
-                if (stops.count(iStop) == 1)
-                    updateStop(iStop);
+            isDone[pRoute] = true;
         }
     }
 
   public:
     int numBusesToDestination(vector<vector<int>> &routes, int source, int target) {
-
         for (auto &route : routes) {
             for (auto &stop : route) {
-                stops.insert(stop);
-
-                if (stopRoutes.count(stop) == 0)
-                    stopRoutes[stop] = {&route};
+                if (stopRoutesMap.count(stop) == 0)
+                    stopRoutesMap[stop] = {&route};
                 else
-                    stopRoutes[stop].insert(&route);
+                    stopRoutesMap[stop].insert(&route);
             }
+
+            isDone[&route] = false;
         }
 
-        busToTake[source] = 0;
-        updateStop(source);
-        return busToTake.count(target) ? busToTake[target] : -1;
+        busToTakeMap[source] = 0;
+        stopQueue.push_back(source);
+        while (!stopQueue.empty()) {
+            updateStop(stopQueue.front());
+            stopQueue.pop_front();
+        }
+        return busToTakeMap.count(target) ? busToTakeMap[target] : -1;
     }
 };
 
@@ -116,6 +122,6 @@ class Solution {
 int main(int argc, char const *argv[]) {
     vector<vector<int>> routes = {{1, 2, 7}, {3, 6, 7}};
 
-    cout << Solution().numBusesToDestination(routes, 1, 6);
+    cout << Solution().numBusesToDestination(routes, 1, 6) << endl;
     return 0;
 }
