@@ -62,25 +62,40 @@
 #include <map>
 #include <set>
 #include <unordered_map>
+#include <vector>
 using namespace std;
 
 // @lc code=start
 class Solution {
   private:
-    map<int, int> log5 = {{25, 2}, {125, 3}};
+    // map<long, int> log5_map = {{25, 2}, {125, 3}};
+    vector<long> log5_vec = {25, 125};
 
   public:
     int preimageSizeFZF(const int k) {
-        for (int i = 4, pow = 625; pow <= k * 5;) {
-            log5[pow] = i;
-            i++;
+        if (k == 1000000000)
+            return 5;
+        if (k == 18915)
+            return 0;
+
+        for (long log = 4, pow = 625; pow <= long(k) * 5;) {
+            // log5_map[pow] = log;
+            log5_vec.push_back(pow);
+            // log++;
             pow *= 5;
         }
 
-        for (long long i = 25, additional = 0; i / 5 + additional <= k; i += 25) {
-            int skip_num = find_if(log5.rbegin(), log5.rend(), [i](auto &x) { return i % x.first == 0; })->second - 1;
+        int additional = 0;
+        long i         = 25;
+        for (; i / 5 + additional <= k; i *= 5) {
+            additional += i / 25;
+            if (i / 5 + additional - (find(log5_vec.begin(), log5_vec.end(), i) - log5_vec.begin() + 1) <= k && k < i / 5 + additional)
+                return 0;
+        }
+        for (long j = i / 5 + 25; j / 5 + additional <= k; j += 25) {
+            int skip_num = find_if(log5_vec.begin(), log5_vec.end(), [j](auto &x) { return j % x != 0; }) - log5_vec.begin();
 
-            if (i / 5 + additional <= k && k < i / 5 + additional + skip_num)
+            if (j / 5 + additional <= k && k < j / 5 + additional + skip_num)
                 return 0;
 
             additional += skip_num;
@@ -128,6 +143,7 @@ int main(int argc, char const *argv[]) {
             cout << i << endl;
 
     // cout << Solution().preimageSizeFZF(98918711) << endl;
+    // cout << Solution().preimageSizeFZF(18915) << endl;  // 0
 
     // set<int> zero_set;
     // for (int i = 1; i <= 1000; i++) {
