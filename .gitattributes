@@ -4,4 +4,4 @@
 *.py linguist-language=Python
 
 .vscode/* -linguist-detectable
-.devcontainer/* -linguist-detectable
+.devcontainer/* linguist-vendored
